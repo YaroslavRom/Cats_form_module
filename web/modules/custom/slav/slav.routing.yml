@@ -1,0 +1,7 @@
+slav.content:
+  path: '/slav/cats'
+  defaults:
+    _form: 'Drupal\slav\Form\cats'
+    _title: "Cats Module"
+  requirements:
+    _permission: 'access content'
