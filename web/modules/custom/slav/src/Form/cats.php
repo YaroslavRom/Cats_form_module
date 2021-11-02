@@ -24,7 +24,7 @@ class cats extends FormBase {
     return 'slav_hello_form';
   }
 
-  
+
 
   /**
    * Form constructor.
@@ -76,25 +76,23 @@ class cats extends FormBase {
     ];
 
     $form['CatImg'] = [
-      'type' => 'managed_file',
+      '#type' => 'managed_file',
+      '#required' => TRUE,
 
       '#title' => $this->t('Your Cats Picture'),
       '#description' => $this ->t('Please use image files under 2 MB '),
 
-      '#required' => TRUE,
-      '#multiple' => FALSE,
-
       '#upload_location' => 'public://',
-      '#default_value' => '$value',
-      '#theme' => 'mymodule_thumb_upload',
       '#progress_indicator' => 'throbber',
       '#progress_message' => 'Uploading ...',
 
-      '#upload_validators' => array (
-        'file_validate_is_image' => array(),
+      '#upload_validators' =>  [
+        'file_validate_is_image' => [],
         'file_validate_extensions' => ['png jpg jpeg'],
         'file_validate_size' => [2097152],
-      ),
+      ],
+      '#theme' => 'image_widget',
+      '#preview_image_style' => 'medium',
     ];
 
     $form['actions']['submit'] = [
@@ -213,8 +211,6 @@ class cats extends FormBase {
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
   }
-
-
 
 }
 
