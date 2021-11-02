@@ -1,0 +1,25 @@
+uuid: 44507a08-0b99-462d-b58e-a540858c32dc
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:7649579e-3410-4edd-a274-24dd915eabcd'
+  module:
+    - block_content
+  theme:
+    - bootstrap_barrio_subtheme
+id: theformlink
+theme: bootstrap_barrio_subtheme
+region: content
+weight: -2
+provider: null
+plugin: 'block_content:7649579e-3410-4edd-a274-24dd915eabcd'
+settings:
+  id: 'block_content:7649579e-3410-4edd-a274-24dd915eabcd'
+  label: TheFormLink
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

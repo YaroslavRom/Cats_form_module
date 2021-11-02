@@ -1,0 +1,54 @@
+<?php
+
+
+/** saving data to database */
+function slav_schema(){
+  $schema['slav_database'] = [
+    'description' => 'Table for storing the cats in the bag. ',
+    'fields' => [
+      'id' => [
+        'description' => 'Cats ID card. ',
+        'type' => 'serial',
+        'not null' => TRUE,
+        'unsigned' => TRUE,
+      ],
+      'uid' => [
+        'description' => 'user UID card. ',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'cats_name' => [
+        'description' => 'Cats name. ',
+        'type' => 'varchar',
+        'length' => 32,
+        'not null' => FALSE,
+        'default' => '',
+      ],
+      'email' => [
+        'description' => 'Owners email address. ',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => FALSE,
+        'default' => '',
+
+      ],
+      'cats_photo' => [
+        'description' => 'Cats Photo. ',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'created' => [
+        'description' => 'Date of registration. ',
+        'type' => 'varchar',
+        'length' => 64,
+        'not null' => FALSE,
+        'default' => '',
+
+      ],
+    ],
+    'primary key' => ['id'],
+  ];
+  return $schema;
+}

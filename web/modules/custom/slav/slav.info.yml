@@ -1,4 +1,4 @@
-name: slavController
+name: Slav_Cats
 type: module
 description: 'This module creates a page with a list of cats and a form where users can leave photos of their pets.'
 package: 'slavController'

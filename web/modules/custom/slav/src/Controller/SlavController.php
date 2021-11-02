@@ -1,8 +1,10 @@
 <?php
 
-namespace Drupal\slav\Controller;
+namespace Drupal\alexandr\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\file\Entity\File;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * An example controller.
@@ -17,10 +19,19 @@ class SlavController extends ControllerBase {
   }
   public function content()
   {
-    $build = [
-      '#markup' => $this->t('Hello World!'),
+    $TheWorkingform = \Drupal::formBuilder()->getForm('Drupal\slav\Form\cats');
+
+    return[
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'h1',
+        '#value' => $this->t('Hello! You can add here a photo of your cat.'),
+        '#attributes' => [
+          'class' => ['cats-title'],
+        ],
+      ],
+      $TheWorkingform,
     ];
-    return $build;
   }
 
 }

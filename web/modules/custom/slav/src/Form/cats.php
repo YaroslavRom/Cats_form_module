@@ -10,12 +10,16 @@ use Drupal\Core\Ajax\AlertCommand;
 use Drupal\file\Entity\File;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Ajax\InsertCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\media\Entity\Media;
 
 
 /**
  *  controller.
  */
 class cats extends FormBase {
+
+  protected $dateNtime;
 
   /**
    * Form id
@@ -24,7 +28,12 @@ class cats extends FormBase {
     return 'slav_hello_form';
   }
 
-
+ public static function create(ContainerInterface $container)
+ {
+   $activetime = parent::create($container);
+   $activetime->dateNtime = $container -> get('datetime.time');
+   return $activetime;
+ }
 
   /**
    * Form constructor.
@@ -47,7 +56,7 @@ class cats extends FormBase {
       '#description' => $this->t('Enter the name of your cat. Please keep it within 2 to 32 symbols.'),
       '#required' => TRUE,
       '#ajax' => [
-        'event' => 'keyup',
+        'event' => 'change',
         'callback' => '::UseAjaxName',
       ],
     ];
@@ -82,9 +91,9 @@ class cats extends FormBase {
       '#title' => $this->t('Your Cats Picture'),
       '#description' => $this ->t('Please use image files under 2 MB '),
 
-      '#upload_location' => 'public://',
       '#progress_indicator' => 'throbber',
       '#progress_message' => 'Uploading ...',
+      '#upload_location' => 'public://',
 
       '#upload_validators' =>  [
         'file_validate_is_image' => [],
@@ -98,13 +107,13 @@ class cats extends FormBase {
     $form['actions']['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Add cat'),
-      '#ajax' => [
-        'callback' => '::UseAjaxSubmit',
-        'event' => 'click',
-        'progress' => [
-          'type' => 'throbber',
-        ],
-      ],
+//      '#ajax' => [
+//        'callback' => '::UseAjaxSubmit',
+//        'event' => 'click',
+//        'progress' => [
+//          'type' => 'throbber',
+//        ],
+//      ],
     ];
     return $form;
   }
@@ -210,7 +219,26 @@ class cats extends FormBase {
    * Form submit.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    $connect = \Drupal::service('database');
+    $file = file_save_upload('CatImg', [], 'public://');
+
+    $connect->insert('slav_database')
+      -> fields([
+        'cats_name' => $form_state->getValue('NameOfCat'),
+        'email' => $form_state->getValue('email'),
+        'uid' => $this->currentUser()->id(),
+        'created' => date('m-d-Y', $this->dateNtime->getCurrentTime()),
+//        'cats_photo' => $form_state->getValue('th img field here')[0],
+
+      ])
+      ->execute();
+    \Drupal::messenger()->addMessage($this->t("Cat is registered :)"), 'status', TRUE);
+
+
+    $url = \Drupal\Core\Url::fromRoute('slav.content');
+    return $form_state->setRedirectUrl($url);
   }
+
 
 }
 
