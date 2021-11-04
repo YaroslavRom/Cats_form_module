@@ -3,7 +3,7 @@
 
 /** saving data to database */
 function slav_schema(){
-  $schema['slav_database'] = [
+  $schema['slav_cats'] = [
     'description' => 'Table for storing the cats in the bag. ',
     'fields' => [
       'id' => [

@@ -1,0 +1,25 @@
+uuid: 9420796e-70cf-414c-8bc4-c8de7cf9810f
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:96731d2c-45f4-4a19-9239-981c3c44facc'
+  module:
+    - block_content
+  theme:
+    - bootstrap_barrio_subtheme
+id: cats_list
+theme: bootstrap_barrio_subtheme
+region: content
+weight: 0
+provider: null
+plugin: 'block_content:96731d2c-45f4-4a19-9239-981c3c44facc'
+settings:
+  id: 'block_content:96731d2c-45f4-4a19-9239-981c3c44facc'
+  label: 'Cats_List '
+  provider: block_content
+  label_display: visible
+  status: true
+  info: ''
+  view_mode: full
+visibility: {  }

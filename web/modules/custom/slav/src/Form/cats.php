@@ -28,12 +28,12 @@ class cats extends FormBase {
     return 'slav_hello_form';
   }
 
- public static function create(ContainerInterface $container)
- {
-   $activetime = parent::create($container);
-   $activetime->dateNtime = $container -> get('datetime.time');
-   return $activetime;
- }
+  public static function create(ContainerInterface $container)
+  {
+    $activetime = parent::create($container);
+    $activetime->dateNtime = $container -> get('datetime.time');
+    return $activetime;
+  }
 
   /**
    * Form constructor.
@@ -76,7 +76,7 @@ class cats extends FormBase {
       '#ajax' => [
         'event' => 'keyup',
         'callback' => '::UseAjaxMail',
-        ],
+      ],
     ];
 
     $form['system_message3'] = [
@@ -206,12 +206,12 @@ class cats extends FormBase {
       );
     }
     /** End of cats name ajax validation  */
-      return $response;
+    return $response;
   }
 
   public function UseAjaxSubmit(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();
- /** submit callback  */
+    /** submit callback  */
     return $response;
   }
 
@@ -219,24 +219,27 @@ class cats extends FormBase {
    * Form submit.
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $connect = \Drupal::service('database');
-    $file = file_save_upload('CatImg', [], 'public://');
+    if($this->validateForm($form, $form_state)==TRUE){
 
-    $connect->insert('slav_database')
-      -> fields([
-        'cats_name' => $form_state->getValue('NameOfCat'),
-        'email' => $form_state->getValue('email'),
-        'uid' => $this->currentUser()->id(),
-        'created' => date('m-d-Y', $this->dateNtime->getCurrentTime()),
-//        'cats_photo' => $form_state->getValue('th img field here')[0],
+      $connect = \Drupal::service('database');
+      $file = file_save_upload('CatImg', [], 'public://cats');
 
-      ])
-      ->execute();
-    \Drupal::messenger()->addMessage($this->t("Cat is registered :)"), 'status', TRUE);
+      $connect->insert('slav_cats')
+        -> fields([
+          'cats_name' => $form_state->getValue('NameOfCat'),
+          'email' => $form_state->getValue('email'),
+          'uid' => $this->currentUser()->id(),
+          'created' => date('m-d-Y', $this->dateNtime->getCurrentTime()),
+        'cats_photo' => $form_state->getValue('CatImg')[0],
+
+        ])
+        ->execute();
+      \Drupal::messenger()->addMessage($this->t("Cat is registered :)"), 'status', TRUE);
 
 
-    $url = \Drupal\Core\Url::fromRoute('slav.content');
-    return $form_state->setRedirectUrl($url);
+      $url = \Drupal\Core\Url::fromRoute('slav.content');
+      return $form_state->setRedirectUrl($url);
+    }
   }
 
 

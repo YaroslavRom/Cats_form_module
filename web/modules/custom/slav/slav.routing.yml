@@ -5,3 +5,11 @@ slav.content:
     _title: "Cats Module"
   requirements:
     _permission: 'access content'
+
+slav.response:
+  path: '/home-page/list'
+  defaults:
+    _controller: 'Drupal\slav\Controller\SlavController:PullCat'
+    _title: "Registered Cats"
+  requirements:
+    _permission: 'access content'
